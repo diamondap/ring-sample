@@ -1,0 +1,14 @@
+body { font-family: Verdana, Arial, Helvetica, sans-serif; 
+	   font-size: 1em; }
+#login { margin: auto; 
+		 border: 1px solid #000; 
+		 background-color: #eee;
+	     width: 400px;}
+.div-head { background-color: #bcf;
+			font-size: 1em;
+			padding: 8px; 
+			margin-bottom: 30px; } 
+.div-body { padding: 8px; }
+label { width:160px; display:inline-block; margin-bottom: 12px;}
+input { height: 25px; display:inline-block; width: 200px; margin-bottom: 12px;}
+input[type="button"] { margin: auto; width: auto; } 
