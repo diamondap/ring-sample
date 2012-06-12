@@ -13,13 +13,27 @@
                  ;; Compojure lets us define RESTful routes.
                  [compojure "1.1.0"]
 
-                 ;; Korma helps us generate SQL
-                 [korma "0.3.0-beta9"]
+                 ;; Korma helps us generate SQL... but we're not using it.
+                 ;; [korma "0.3.0-beta9"]
+
+                 ;; The is the de facto Clojure logging library. It uses
+                 ;; log4j under the hood, so we'll include that below.
+                 ;; Leiningen can usually figure out these dependencies,
+                 ;; but we're going to add an entry for log4j because we
+                 ;; want to tell Leiningen to exclude the pieces of it
+                 ;; we don't need.
+                 [org.clojure/tools.logging "0.2.3"]
+
+
+                 ;; We'll just go with the standard Clojure JDBC wrapper,
+                 ;; which is quite handy.
+                 [org.clojure/java.jdbc "0.2.0"]
 
                  ;; The following libraries are pure Java.
+                 ;; Note that we exclude some heavyweight parts of
+                 ;; log4j that we don't need in our application.
                  [org.xerial/sqlite-jdbc "3.7.2"]
                  [cheshire "4.0.0"]
-                 [org.clojure/tools.logging "0.2.3"]
                  [joda-time "2.0"]
                  [log4j "1.2.16" :exclusions [javax.mail/mail
                                               javax.jms/jms

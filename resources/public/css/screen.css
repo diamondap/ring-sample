@@ -1,9 +1,9 @@
 body { font-family: Verdana, Arial, Helvetica, sans-serif; 
 	   font-size: 1em; }
-#login { margin: auto; 
-		 border: 1px solid #000; 
-		 background-color: #eee;
-	     width: 400px;}
+#formdiv { margin: auto; 
+		  border: 1px solid #000; 
+		  background-color: #eee;
+	      width: 400px;}
 .div-head { background-color: #bcf;
 			font-size: 1em;
 			padding: 8px; 
@@ -12,3 +12,4 @@ body { font-family: Verdana, Arial, Helvetica, sans-serif;
 label { width:160px; display:inline-block; margin-bottom: 12px;}
 input { height: 25px; display:inline-block; width: 200px; margin-bottom: 12px;}
 input[type="button"] { margin: auto; width: auto; } 
+textarea { height: 150px; width: 250px; }
