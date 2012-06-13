@@ -1,4 +1,4 @@
-id		name	description		birthday
-1		Homer Simpson			Personification of American popular tastes, judgment and intellect		1965-02-12
-2		Yosemite Sam			Personification of George W. Bush's foreign policy	  1943-08-18
-3		Spongebob Squarepants	Naive optimist	1998-03-13
+id	name	description	birthday
+1	Homer Simpson	Personification of American popular tastes, judgment and intellect	1965-02-12
+2	Yosemite Sam	Personification of George W. Bush's foreign policy	1943-08-18
+3	Spongebob Squarepants	Naive optimist	1998-03-13

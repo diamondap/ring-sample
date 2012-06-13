@@ -225,14 +225,14 @@
 ;;   values, the "values" var will contain a lazy sequence of objects
 ;;   of various types.
 ;;
-;;   Finally, this fuction calls zip-map on the param-names and values.
-;;   zip-map creates a map (hahs) from two sequences. The first item
+;;   Finally, this fuction calls zipmap on the param-names and values.
+;;   zipmap creates a map (hahs) from two sequences. The first item
 ;;   in the first sequence becomes the first key, and first item in the
 ;;   second sequence becomes the value associated with that key. All
 ;;   of the keys and values are associated in order.
 ;;
 ;;   Notice that in the let statement, we created two sequences, and
-;;   that they will be in the same order. The hash that zip-map builds
+;;   that they will be in the same order. The hash that zipmap builds
 ;;   would look like this, given the config vector in the docstring:
 ;;
 ;;   {:company "Apple", :age 26, :weight 188, ...etc.}
@@ -242,7 +242,7 @@
 ;;   1. The return value of a function is the value of the last thing
 ;;      that was evaluated inside the function.
 ;;
-;;   2. The call to zip-map is inside of the let form. When let creates
+;;   2. The call to zipmap is inside of the let form. When let creates
 ;;      local vars, they only exist until you reach the parenthesis
 ;;      that ends the let form.
 ;;
