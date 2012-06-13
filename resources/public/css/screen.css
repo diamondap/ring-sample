@@ -13,3 +13,5 @@ label { width:160px; display:inline-block; margin-bottom: 12px;}
 input { height: 25px; display:inline-block; width: 200px; margin-bottom: 12px;}
 input[type="button"] { margin: auto; width: auto; } 
 textarea { height: 150px; width: 250px; }
+
+td { padding: 5px; }

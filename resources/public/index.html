@@ -1,32 +1,56 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/screen.css"/>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/sample.js"></script>
 </head>
 <body>
 
+<h1>Clojure/Ring Sample Application</h1>
+
+<p><a href="#" onclick="doSearch('sqlite');">
+	Records in the SQLite database</a></p>
+<p><a href="#" onclick="doSearch('flat-file');">
+	Records in the flat file database</a></p>
 
 
-<form name="sample-form" id="sample-form" action="/dump" method="post">
-  <div id="formdiv">
-	<div class="div-head">
-	  Type some values into the form, and click submit to 
-	  dump out the request.
-	</div>
-	<div class="div-body">
-	  <label for="login_name">User Name</label>
-	  <input type="text" id="login_name" name="login_name"/>
-	  
-	  <label for="login_pwd">Password</label>
-	  <input type="password" id="login_pwd" name="login_pwd"/>
-
-	  <label for="long_text">Put more text here...</label>
-	  <textarea id="long_text" name="long_text"></textarea>
-	  
-
-	  <input type="submit" value="Submit"/>
-	</div>
-  </div>
-</form>
+<div id="results">
+</div>
 
 </body>
+
+<script id="grid-template" type="text/html">
+  <% if ($app.dataSource == 'sqlite') { %>
+  <h2>SQLite Data</h2>
+  <% } else { %>
+  <h2>Flat File Data</h2>
+  <% } %>
+ 
+  <table cellspacing="0">
+	<thead>
+	    <tr>
+		  <% $.each(data[0], function(name, value) { %>
+		  <th><%= name %></th>
+		  <% }); %>
+		  <th>Actions</th>
+		</tr>
+	</thead>
+	<tbody>
+	  <% if (data.length == 0) { %>
+	  <tr><td colspan="6">No results.</td></tr>
+	  <% } %>
+	  <% for(var i=0; i < data.length; i++) { %>
+		    <tr>
+			     <% $.each(data[i], function(name, value) { %>
+				 <td><%= value %></td>
+				 <% }); %>
+				 <td>
+				 <a href="<%= $app.dataSource %>/<%= data[i]['id']  %>/edit">Edit</a>  
+				 </td>
+			</tr>
+	   <% } %>
+	</tbody>
+  </table>
+</script>
+
 </html>
