@@ -1,7 +1,9 @@
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.21.custom.css"/>
 <link rel="stylesheet" type="text/css" href="css/screen.css"/>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.21.custom.min.js"></script>
 <script type="text/javascript" src="js/sample.js"></script>
 </head>
 <body>
@@ -17,6 +19,9 @@
 <div id="results">
 </div>
 
+<div id="dialog">
+</div>
+
 </body>
 
 <script id="grid-template" type="text/html">
@@ -25,6 +30,8 @@
   <% } else { %>
   <h2>Flat File Data</h2>
   <% } %>
+
+  <p><a href="#" onclick="newRecord();">Add New Record</a></p>
  
   <table cellspacing="0">
 	<thead>
@@ -45,12 +52,37 @@
 				 <td><%= value %></td>
 				 <% }); %>
 				 <td>
-				 <a href="<%= $app.dataSource %>/<%= data[i]['id']  %>/edit">Edit</a>  
+				 <a href="#" onclick="doEdit('<%= $app.dataSource %>/<%= data[i]['id']  %>/edit')">Edit</a>  
 				 </td>
 			</tr>
 	   <% } %>
 	</tbody>
   </table>
+</script>
+
+<script id="form-template" type="text/html">
+  <form action="<%= $app.dataSource %>/<%= data['id'] %>" method="post">
+	<label for="charId">Id</label>
+	<input type="text" name="id" id="charId" 
+		   value="<%= data['id'] %>"/>
+
+	<label for="charName">Name</label>
+	<input type="text" name="name" id="charName" 
+		   value="<%= data['name'] %>"/>
+
+	<label for="charDesc">Description</label>
+	<input type="text" name="description" id="charDesc" 
+		   value="<%= data['description'] %>"/>
+
+	<label for="charBirthday">Birthday</label>
+	<input type="text" name="birthday" id="charBirthday" 
+		   value="<%= data['birthday'] %>"/>
+
+	<br/>
+
+	<input type="button" id="submitButton" value="Submit"
+		   onclick="submitForm();"/>
+  </form>
 </script>
 
 </html>

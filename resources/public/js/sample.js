@@ -39,3 +39,11 @@ function doSearch (url)
 	$.get(url,		  
 		  function(data) { $app.render_in('#results', gridTemplate, data); });
 }
+
+function newRecord ()
+{
+	var data = {};
+	var formTemplate = $("#form-template").html();
+	$app.render_in('#dialog', formTemplate, data); 
+	$("#dialog").dialog({ modal: true });
+}
