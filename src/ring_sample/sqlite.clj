@@ -1,6 +1,7 @@
 (ns ring-sample.sqlite
   (:require [cheshire.core :as json]
-            [clojure.java.jdbc :as jdbc]))
+            [clojure.java.jdbc :as jdbc]
+            [ring-sample.util :as util]))
 
 (def db {:classname   "org.sqlite.JDBC"
          :subprotocol "sqlite"
@@ -64,6 +65,19 @@
     (catch Throwable t (prn sql) (throw t))))
 
 
+;; The & in the parameter list says that the function can take one or more
+;; optional parameters.
+;;
+(defn execute-sql
+  "Executes a sql statement. Param sql is a sql string and the following args
+   are seqs of parameters to be bound to the sql statement."
+  [sql & params]
+  (try
+    (jdbc/with-connection db
+      (jdbc/do-prepared sql params))
+    (catch Throwable t (prn sql) (throw t))))
+
+
 (defn init-db!
   "Initializes the SQLite database with a table and some records."
   []
@@ -109,3 +123,69 @@
   (if (empty? (query [sql]))
     (init-db!))
   (query-json [sql]))
+
+
+;; This tells util/get-params how to convert HTTP params, which are
+;; all strings, to the proper data types.
+;;
+(def param-config
+     [{:name :id           :type :int       :default nil}
+      {:name :name         :type :string    :default nil}
+      {:name :description  :type :string    :default nil}
+      {:name :birthday     :type :datetime  :default nil} ])
+
+
+;; Notice the str function, which concatenates as many strings as you
+;; give it. If one of the params is not a string, str calls Java's
+;; toString() method on it.
+;;
+;; If this call succeeds, it returns the ring request object as JSON,
+;; with the typed-params stuffed into it. We hack the record id into
+;; the JSON so you'll see that it was converted to an integer by
+;; util/get-params. (The id_hacked_in property of the JSON will not be
+;; quoted. That tells you it's an integer.)
+;;
+;; At the end of the function, we use dissoc to remove the body from
+;; the request hash, because it's a type of object the serializer cannot
+;; serialize to JSON. dissoc returns a copy of the original hash with
+;; the dissoc'ed item removed.
+;;
+;; We then merge our new copy of the request hash with another hash
+;; containing item(s) we want to add. Then the whole thing is serialized
+;; to JSON.
+;;
+;; If the call fails, it returns an error message in JSON format.
+;;
+(defn create
+  "Creates a new record. This is the ring handler for POST /sqlite/"
+  [request]
+  (let [typed-params (util/get-params (:params request) param-config)
+        insert-statement (str "insert into characters "
+                              "(id, name, description, birthday) "
+                              "values (?, ?, ?, ?)")]
+    (try (execute-sql insert-statement
+                      (:id typed-params)
+                      (:name typed-params)
+                      (:description typed-params)
+                      (:birthday typed-params))
+         (catch Exception ex
+           (json/generate-string {:error (.getMessage ex)})))
+    (json/generate-string (merge (dissoc request :body)
+                                 {:id_converted_to_int (:id typed-params)}))))
+
+(defn update
+  "Updates a record. This is the ring handler for POST /sqlite/:id"
+  [request]
+  (let [typed-params (util/get-params (:params request) param-config)
+        insert-statement (str "update characters "
+                              "set name=?, description=?, birthday=? "
+                              "where id=?")]
+    (try (execute-sql insert-statement
+                      (:name typed-params)
+                      (:description typed-params)
+                      (:birthday typed-params)
+                      (:id typed-params))
+         (catch Exception ex
+           (json/generate-string {:error (.getMessage ex)})))
+    (json/generate-string (merge (dissoc request :body)
+                                 {:id_converted_to_int (:id typed-params)}))))

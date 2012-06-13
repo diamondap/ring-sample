@@ -73,6 +73,8 @@
 (defroutes main-routes
 
   (GET "/sqlite" [] sqlite/show-index)
+  (POST "/sqlite/:id" [] sqlite/update)
+  (POST "/sqlite/" [] sqlite/create)
 
   (GET  "/flat-file" [] flat-file/show-index)
   (POST "/flat-file/:id" [] flat-file/update)
