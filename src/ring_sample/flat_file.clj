@@ -1,6 +1,7 @@
 (ns ring-sample.flat-file
   (:require [clojure.string]
-            [cheshire.core :as json]))
+            [cheshire.core :as json]
+            [ring-sample.util :as util]))
 
 ;; We're going to read tab-delimited data from a flat text file,
 ;; then allow that data to be updated from submitted web forms.
@@ -21,7 +22,11 @@
 
 
 ;; This function parses the data from the file.
-;;
+;; This uses slurp to read the entire contents of the file into
+;; a string. Then it splits the string on newlines to create
+;; a sequence of records. It splits each record on tabs to create
+;; fields within each record. The result is sequence of records,
+;; with each record containing a sequence of fields.
 (defn read-data-from-file
   "Reads data from the flat file and parses it into a series of
    vectors-- one vector for each record. The first record has
@@ -133,3 +138,13 @@
     (init-data!))
   (json/generate-string @data))
 
+
+(defn update
+  "This is the ring handler for POST /flat-file/:id"
+  [request]
+  (util/dump-request request))
+
+(defn create
+  "This is the ring handler for POST /flat-file"
+  [request]
+  (util/dump-request request))

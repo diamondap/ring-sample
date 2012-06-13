@@ -61,18 +61,25 @@
 </script>
 
 <script id="form-template" type="text/html">
-  <form action="<%= $app.dataSource %>/<%= data['id'] %>" method="post">
+  <form id="character-form" 
+		action="<%= $app.dataSource %>/<%= data['id'] %>" method="post">
 	<label for="charId">Id</label>
 	<input type="text" name="id" id="charId" 
 		   value="<%= data['id'] %>"/>
+
+	<br/>
 
 	<label for="charName">Name</label>
 	<input type="text" name="name" id="charName" 
 		   value="<%= data['name'] %>"/>
 
+	<br/>
+
 	<label for="charDesc">Description</label>
 	<input type="text" name="description" id="charDesc" 
 		   value="<%= data['description'] %>"/>
+
+	<br/>
 
 	<label for="charBirthday">Birthday</label>
 	<input type="text" name="birthday" id="charBirthday" 
@@ -83,6 +90,15 @@
 	<input type="button" id="submitButton" value="Submit"
 		   onclick="submitForm();"/>
   </form>
+</script>
+
+<script id="post-submit" type="text/html">
+  <h2>Submitted!</h2>
+  <p><a href="#" onclick="refresh()">Reload Underlying Page</a></p>
+  <p>This is what the ring request object looks like:</p>
+  <pre>
+<%= JSON.stringify(data, undefined, 2) %>  
+  </pre>
 </script>
 
 </html>

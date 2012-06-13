@@ -45,5 +45,20 @@ function newRecord ()
 	var data = {};
 	var formTemplate = $("#form-template").html();
 	$app.render_in('#dialog', formTemplate, data); 
-	$("#dialog").dialog({ modal: true });
+	$("#dialog").dialog({ modal: true, width: 600, height: 400 });
+}
+
+function submitForm()
+{
+	var form = $("#character-form");
+    var postSubmitTemplate = $("#post-submit").html();
+    $.ajaxSetup({ cache: false, dataType: 'json' });
+    $.post(form.attr('action'),
+		   form.serialize(),
+		   function(data) { $app.render_in('#dialog', postSubmitTemplate, data); });
+}
+
+function refresh()
+{
+
 }

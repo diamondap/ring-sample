@@ -73,7 +73,10 @@
 (defroutes main-routes
 
   (GET "/sqlite" [] sqlite/show-index)
-  (GET "/flat-file" [] flat-file/show-index)
+
+  (GET  "/flat-file" [] flat-file/show-index)
+  (POST "/flat-file/:id" [] flat-file/update)
+  (POST "/flat-file/" [] flat-file/create)
 
   ;; Provide a route to which we can submit forms, and have
   ;; the server dump out the request.
