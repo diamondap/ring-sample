@@ -36,10 +36,11 @@
   <table cellspacing="0">
 	<thead>
 	    <tr>
-		  <% $.each(data[0], function(name, value) { %>
-		  <th><%= name %></th>
-		  <% }); %>
-		  <th>Actions</th>
+		  <th>Id</th>
+		  <th>Name</th>
+		  <th>Description</th>
+		  <th>Birthday</th>
+		  <!-- <th>Actions</th> -->
 		</tr>
 	</thead>
 	<tbody>
@@ -48,12 +49,15 @@
 	  <% } %>
 	  <% for(var i=0; i < data.length; i++) { %>
 		    <tr>
-			     <% $.each(data[i], function(name, value) { %>
-				 <td><%= value %></td>
-				 <% }); %>
+				 <td><%= data[i]['id'] %></td>
+				 <td><%= data[i]['name'] %></td>
+				 <td><%= data[i]['description'] %></td>
+				 <td><%= data[i]['birthday'] %></td>
+				 <!--
 				 <td>
 				 <a href="#" onclick="doEdit('<%= $app.dataSource %>/<%= data[i]['id']  %>/edit')">Edit</a>  
 				 </td>
+				 -->
 			</tr>
 	   <% } %>
 	</tbody>

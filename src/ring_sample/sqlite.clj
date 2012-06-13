@@ -117,10 +117,14 @@
 ;;
 ;; In core.clj we defined this as the handler for GET /sqlite
 ;;
+;; Note that we check to see if the database has been initialized.
+;; If it's empty or does not yet exist, we will create it and
+;; seed it with some data.
+;;
 (defn show-index
   "Returns a list of records from our SQLite database."
   [request]
-  (if (empty? (query [sql]))
+  (if (empty? (try (query [sql]) (catch Exception ex [])))
     (init-db!))
   (query-json [sql]))
 
@@ -173,6 +177,7 @@
     (json/generate-string (merge (dissoc request :body)
                                  {:id_converted_to_int (:id typed-params)}))))
 
+;; This is not wired up yet.
 (defn update
   "Updates a record. This is the ring handler for POST /sqlite/:id"
   [request]

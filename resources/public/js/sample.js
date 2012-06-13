@@ -48,6 +48,7 @@ function newRecord ()
 	$("#dialog").dialog({ modal: true, width: 600, height: 400 });
 }
 
+
 function submitForm()
 {
 	var form = $("#character-form");

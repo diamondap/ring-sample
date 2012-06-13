@@ -5,6 +5,9 @@ of Clojure and Ring.
 
 The code is heavily commented, so take some time to poke around.
 
+This app does not do any proper validation of form data, so please don't
+look at it as a model for safe form handling!
+
 ## Usage
 
 You will need leiningen to run this project. You can start the application

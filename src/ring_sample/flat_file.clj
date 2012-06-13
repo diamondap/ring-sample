@@ -138,13 +138,12 @@
     (init-data!))
   (json/generate-string @data))
 
-
-(defn update
-  "This is the ring handler for POST /flat-file/:id"
-  [request]
-  (util/dump-request request))
-
+;; This adds a new record to our data ref and returns a dump of the
+;; ring request hash. We're not writing data back to the file, so new
+;; records will disappear when the app shuts down.
+;;
 (defn create
   "This is the ring handler for POST /flat-file"
   [request]
+  (add-record (:params request))
   (util/dump-request request))
