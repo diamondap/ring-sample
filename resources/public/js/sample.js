@@ -60,5 +60,6 @@ function submitForm()
 
 function refresh()
 {
-
+	$('#dialog').dialog('close');
+	doSearch($app.dataSource);
 }
