@@ -64,6 +64,28 @@
     (catch Throwable t (prn sql) (throw t))))
 
 
+(defn init-db!
+  "Initializes the SQLite database with a table and some records."
+  []
+  (println "Initializing SQLite database")
+  (make-table)
+  (jdbc/with-connection db
+    (jdbc/insert-records :characters
+                         {:id 1 :name "Fred Flintstone"
+                          :description "Stone-age Ralph Kramden"
+                          :birthday "1939-03-08"}
+                         {:id 2 :name "Wilma Flintstone"
+                          :description "Wife of Fred"
+                          :birthday "1939-06-22"}
+                         {:id 3 :name "Fred Astair"
+                          :description "Actor, dancer"
+                          :birthday "1912-01-16"})))
+
+
+;; This is the SQL query we'll execute.
+(def sql "select * from characters order by name")
+
+
 ;; This function calls query and converts the result to JSON
 ;;
 (defn query-json
@@ -84,4 +106,6 @@
 (defn show-index
   "Returns a list of records from our SQLite database."
   [request]
-  (query-json ["select * from characters order by name"]))
+  (if (empty? (query [sql]))
+    (init-db!))
+  (query-json [sql]))
