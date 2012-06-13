@@ -38,7 +38,8 @@
             [compojure.route :as route]
             [compojure.handler :as handler]
             [clojure.string :as string]
-            [ring-sample.sqlite :as sqlite])
+            [ring-sample.sqlite :as sqlite]
+            [ring-sample.util :as util])
 
   ;; Since this is the core of our application, and
   ;; we would like to be able to compile it into
@@ -52,13 +53,6 @@
   (:gen-class :main true))  ;; end of ns declaration
 
 
-(defn dump-request
-  "Dump the request hash back to the client, with some <br/>
-   tags interspersed for readability."
-  [request]
-  (string/replace (json/generate-string (dissoc request :body))
-                  ",\""
-                  ",<br/>\""))
 
 ;;
 ;; The function defroutes comes from compojure. When we said
@@ -77,12 +71,12 @@
 ;;
 (defroutes main-routes
 
-  ;;(GET "/sqlite" [] sqlite/index)
+  (GET "/sqlite" [] sqlite/index)
   ;;(GET "/flat-file" [] flat-file/index)
 
   ;; Provide a route to which we can submit forms, and have
   ;; the server dump out the request.
-  (POST "/dump" [] dump-request)
+  (POST "/dump" [] util/dump-request)
 
   ;; Anything not matching the routes above will match
   ;; the / route. Treat requests not matching routes above
