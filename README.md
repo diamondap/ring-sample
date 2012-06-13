@@ -9,7 +9,7 @@ you add new records to that (though those records will not be persisted).
 
 The code is heavily commented, so take some time to poke around.
 
-Among the things you'll see demonstrate in the code:
+Among the things you'll see demonstrated in the code:
 
 * Hot to set up a Leiningen project (project.clj)
 * How to use, require and include namespaces and classes (most clj files)
@@ -19,7 +19,7 @@ Among the things you'll see demonstrate in the code:
 * How to read data from a file (flat-file.clj)
 * How to use refs to safely update shared data (flat-file.clj)
 * How to set up RESTful routes with Compojure (core.clj)
-* What a Ring request has looks like (util.clj)
+* What a Ring request hash looks like (util.clj)
 * How to access a database using Clojure JDBC (sqlite.clj)
 * How to turn a Clojure namespace into a Java class (core.clj)
 
