@@ -81,7 +81,7 @@
 ;;
 ;; In core.clj we defined this as the handler for GET /sqlite
 ;;
-(defn index
+(defn show-index
   "Returns a list of records from our SQLite database."
   [request]
   (query-json ["select * from characters order by name"]))

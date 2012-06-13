@@ -39,6 +39,7 @@
             [compojure.handler :as handler]
             [clojure.string :as string]
             [ring-sample.sqlite :as sqlite]
+            [ring-sample.flat-file :as flat-file]
             [ring-sample.util :as util])
 
   ;; Since this is the core of our application, and
@@ -71,8 +72,8 @@
 ;;
 (defroutes main-routes
 
-  (GET "/sqlite" [] sqlite/index)
-  ;;(GET "/flat-file" [] flat-file/index)
+  (GET "/sqlite" [] sqlite/show-index)
+  (GET "/flat-file" [] flat-file/show-index)
 
   ;; Provide a route to which we can submit forms, and have
   ;; the server dump out the request.
@@ -213,10 +214,11 @@
 ;; it will run by default on port 3000, because that's
 ;; just what ring does!
 ;;
+;;
 (defn -main
   "This is the main entry point for the application."
   [& args]
   (println *command-line-args*)
   (let [port (or (first *command-line-args*) 8080)]
-            (jetty/run-jetty app {:port port})))
+    (jetty/run-jetty app {:port port})))
 
