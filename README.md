@@ -16,6 +16,7 @@ Among the things you'll see demonstrated in the code:
 * How to use Java interop (util.clj)
 * How to use map with anonymous functions (util.clj)
 * How to define and use regular expressions (util.clj)
+* How to load a resource embedded in a jar (flat-file.clj)
 * How to read data from a file (flat-file.clj)
 * How to use refs to safely update shared data (flat-file.clj)
 * How to set up RESTful routes with Compojure (core.clj)
