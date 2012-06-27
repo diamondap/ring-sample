@@ -48,10 +48,16 @@ You can build the program into a standalone executable using:
 
 Once the jar is built, you can run it with:
 
-    java -jar ring-sample ring-sample-1.0.0-SNAPSHOT.jar <port>
+    java -jar ring-sample ring-sample-1.0.0-SNAPSHOT-standalone.jar <port>
 
 where port is the optional port number on which to listen for http connections.
 If you don't specify a port, the application will run on port 8080.
+
+When you run lein uberjar, you'll get two jars: 
+ring-sample-1.0.0-SNAPSHOTjar and ring-sample-1.0.0-SNAPSHOT-standalone.jar.
+You'll want to run the standalone version, since it contains all of the
+necessary dependencies. Trying to the run the other (non-standalone) jar
+will give you java.lang.NoClassDefFoundError messages.
 
 Note that the lein commands must be run in the top-level directory. That's the
 directory that contains this README and the project.clj file.
