@@ -1,7 +1,8 @@
 (ns ring-sample.flat-file
   (:require [clojure.string]
             [cheshire.core :as json]
-            [ring-sample.util :as util]))
+            [ring-sample.util :as util]
+            [clojure.java.io :as io]))
 
 ;; We're going to read tab-delimited data from a flat text file,
 ;; then allow that data to be updated from submitted web forms.
@@ -16,9 +17,16 @@
 ;;
 (def data (ref []))
 
-;; This is our data file
+;; This is our flat text data file. It's in the resources directory
+;; of project. Items in the resources directory will be packaged up
+;; in the jar file for deployment when you run lein jar or
+;; lein uberjar.
 ;;
-(def file-path "/Users/diamond/projects/ring-sample/data/characters.txt")
+;; The resource function in clojure.java.io will return a URL for any
+;; resource in the resources directory. Below, we'll call slurp on the
+;; file URL to read its contents.
+;;
+(def file-path (io/resource "characters.txt"))
 
 
 ;; This function parses the data from the file.
