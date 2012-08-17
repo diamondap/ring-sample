@@ -144,31 +144,34 @@
 ;; causes the following chain of processing:
 ;;
 ;; 1. request comes in
-;; 2. wrap-dir-index (the outer-most wrapper) alters the
-;;    request and passes it to the next wrapper.
-;; 3. wrap-content-type passes the request along without
+;; 2. handler/site (the outer-most wrapper) adds things
+;;    required by most websites, such as session, flash,
+;;    cookies, params, etc, and then passes the request along.
+;; 3. wrap-dir-index alters the request and passes it to
+;;    the next wrapper.
+;; 4. wrap-content-type passes the request along without
 ;;    modifying it.
-;; 4. wrap-params extracts all query string and form params,
+;; 5. wrap-params extracts all query string and form params,
 ;;    puts them into a single params hash, and sticks that
 ;;    hash back into the request before passing the request
 ;;    along.
-;; 5. wrap-session extracts session data from the HTTP
+;; 6. wrap-session extracts session data from the HTTP
 ;;    cookies, puts them a cookies hash, and puts that
 ;;    hash into the request before passing it along.
-;; 6. Compojure checks the routing table to find the function
+;; 7. Compojure checks the routing table to find the function
 ;;    that should handle this request. It calls that function,
 ;;    passing it a single param, which is the request object.
-;; 7. The handler function returns the response, and
+;; 8. The handler function returns the response, and
 ;;    wrap-session, being the inner-most wrapper, gets its
 ;;    hands on it. wrap-session converts the :session key
 ;;    from the response into a cookie that can be sent back
 ;;    to the browser. It passes the response on.
-;; 8. wrap-params gets the request, and passes it along
+;; 9. wrap-params gets the request, and passes it along
 ;;    to the next handler, since it has no work to do at
 ;;    this point.
-;; 9. wrap-content-type adds the appropriate content-type
-;;    HTTP header to the response.
-;; 10. wrap-dir-index returns the result of the handler to
+;; 10. wrap-content-type adds the appropriate content-type
+;;     HTTP header to the response.
+;; 11. wrap-dir-index returns the result of the handler to
 ;;     the client without altering it.
 ;;
 ;; The threading operator (->) effectively produces a
@@ -182,11 +185,12 @@
 ;; the one at the bottom. It's the first to touch the data
 ;; on its way in, and the last to touch it on its way out.
 ;;
-(def app (-> (handler/site main-routes)
-             (wrap-session {:store (cookie-store)})
-             wrap-params
-             wrap-content-type
-             wrap-dir-index))
+(def app (->  main-routes
+              (wrap-session {:store (cookie-store)})
+              wrap-params
+              wrap-content-type
+              wrap-dir-index
+              handler/site))
 
 
 ;;
@@ -226,4 +230,3 @@
   (println *command-line-args*)
   (let [port (or (first *command-line-args*) 8080)]
     (jetty/run-jetty app {:port port})))
-
